@@ -26,41 +26,44 @@ test = [
 ]
 percent = 0
 
-# try:
-for i in tqdm(test):
-    test_list = list(i)
-    bot.get('https://m.fitpetmall.com/main/html.php?htmid=service/mbti_test.html')
+try:
+    for i in tqdm(test):
+        test_list = list(i)
+        bot.get('https://m.fitpetmall.com/main/html.php?htmid=service/mbti_test.html')
 
-    name_box = bot.find_element_by_name('dogNm').send_keys('Hello :)')
-    next_btn = bot.find_element_by_class_name('js_start_btn').click()
-    # time.sleep(1)
+        name_box = bot.find_element_by_name('dogNm').send_keys('Hello :)')
+        next_btn = bot.find_element_by_class_name('js_start_btn').click()
+        # time.sleep(1)
 
-    for t in test_list:
-        if t == 1:
-            WebDriverWait(bot, 5).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'answer_box.answer_a')))
-            bot.find_element_by_class_name('answer_box.answer_a').click()
-        else:
-            WebDriverWait(bot, 5).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'answer_box.answer_b')))
-            bot.find_element_by_class_name('answer_box.answer_b').click()
+        for t in test_list:
+            time.sleep(1.5)
+            if t == 1:
+                # WebDriverWait(bot, 5).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'answer_box.answer_a')))
+                bot.find_element_by_class_name('answer_box.answer_a').click()
+            else:
+                # WebDriverWait(bot, 5).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'answer_box.answer_b')))
+                bot.find_element_by_class_name('answer_box.answer_b').click()
+        
+        # WebDriverWait(bot, 5).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'img_illustration')))
+        time.sleep(1)
+        result = bot.find_element_by_class_name('img_illustration').get_attribute('src')
+        result = re.compile('\w{4}.png').findall(result)[0][:4]
+
+        bot.save_screenshot(f'img/{result}.png')
+
+        test_list.append(result)
+
+        with open('result.csv', 'a') as f:
+            wr = csv.writer(f)
+            wr.writerow(test_list)
+
+        percent += 1
+
+        if percent % 500 == 0:
+            CatHandBot.sendTalk(f'열심히 하는중 : {percent}%')    
+    CatHandBot.sendTalk('끝났엄')
+    bot.quit()
     
-    WebDriverWait(bot, 5).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'img_illustration')))
-    result = bot.find_element_by_class_name('img_illustration').get_attribute('src')
-    result = re.compile('\w{4}.png').findall(result)[0][:4]
-
-    bot.save_screenshot(f'img/{result}.png')
-
-    test_list.append(result)
-
-    with open('result.csv', 'a') as f:
-        wr = csv.writer(f)
-        wr.writerow(test_list)
-
-    percent += 1
-
-    if percent % 500 == 0:
-        CatHandBot.sendTalk(f'열심히 하는중 : {percent}%')    
-CatHandBot.sendTalk('끝났엄')
-bot.quit()
-# except Exception as ex:
-#     CatHandBot.sendTalk(f'에러 났따아...\n*****\nError{ex}\n*****')
-#     print('*****\nError', ex, '\n*****')
+except Exception as ex:
+    CatHandBot.sendTalk(f'에러 났따아...\n*****\nError{ex}\n*****')
+    print('*****\nError', ex, '\n*****')
