@@ -1,9 +1,14 @@
+from CatHand import CatHandBot
+
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from itertools import product
 import time
 import re
-from itertools import product
 import csv
-from CatHand import CatHandBot
+import os
 import traceback
 
 opts = webdriver.FirefoxOptions()
@@ -13,10 +18,15 @@ bot = webdriver.Firefox(executable_path='./geckodriver', options=opts)
 
 # 중복순열 4096개
 test = list(product([1,2], repeat=12))
-result_img = []
 
-with open('result.csv', 'w') as f:
-	pass
+# 이미 넣어본 값은 건너뛰기
+with open('result.csv', 'r') as f:
+    l = len(f.readlines())
+test = test[l:]
+
+# 다운받은 적 있는
+result_img = [i[:4] for i in os.listdir('./img')]
+
 
 try:
     for i in test:
@@ -29,12 +39,15 @@ try:
         for t in test_list:
             time.sleep(1.5)
             if t == 1:
-                bot.find_element_by_class_name('answer_box.answer_a').click()
+                WebDriverWait(bot, 10).until(EC.element_to_be_clickable\
+                ((By.CLASS_NAME, 'answer_box.answer_a'))).click()
             else:
-                bot.find_element_by_class_name('answer_box.answer_b').click()
+                WebDriverWait(bot, 10).until(EC.element_to_be_clickable\
+                ((By.CLASS_NAME, 'answer_box.answer_b'))).click()
 
-        time.sleep(1)
-        result = bot.find_element_by_class_name('img_illustration').get_attribute('src')
+        result = WebDriverWait(bot, 10).until(EC.presence_of_element_located\
+            ((By.CLASS_NAME, 'img_illustration'))).get_attribute('src')
+
         result = re.compile('\w{4}.png').findall(result)[0][:4]
 
         if result not in result_img:
