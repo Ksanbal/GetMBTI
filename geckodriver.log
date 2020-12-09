@@ -12892,3 +12892,6 @@ GeckoDriver.prototype.navigateTo@chrome://marionette/content/driver.js:1196:33
 
 console.error: (new Error("SessionFile is closed", "resource:///modules/sessionstore/SessionFile.jsm", 433))
 1607550858285	Marionette	INFO	Stopped listening on port 37381
+1607551778200	geckodriver	INFO	Listening on 127.0.0.1:33877
+1607551778312	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:83.0) Gecko/20100101 Firefox/83.0" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilekEUZqX"
+*** You are running in headless mode.
