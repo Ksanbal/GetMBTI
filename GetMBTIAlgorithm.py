@@ -1,3 +1,4 @@
+from CatHand import CatHandBot
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -56,10 +57,15 @@ def getMBTI():
                 csv.writer(f).writerow(test_list+[result])
 
         # CatHandBot.sendTalk('끝났엄')
-        bot.quit()
         return (True, f'드디어 끝났업')
         
     except Exception:
-        bot.quit()
         return (False, f'에러 났따아...\n*****\nError\n{traceback.format_exc()}\n*****')
         # CatHandBot.sendTalk(f'에러 났따아...\n*****\nError\n{traceback.format_exc()}\n*****')
+
+temp_result = getMBTI()
+bot.quit()
+if temp_result[0]:
+    CatHandBot.sendTalk(temp_result[1])
+else:
+    CatHandBot.sendTalk(temp_result[1])
