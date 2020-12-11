@@ -12944,3 +12944,15 @@ webdriverClickElement@chrome://marionette/content/interaction.js:179:31
 out of memory: 0x0000000000010000 bytes requested
 Exiting due to channel error.
 Exiting due to channel error.
+1607605626149	geckodriver	INFO	Listening on 127.0.0.1:43761
+1607605626897	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:83.0) Gecko/20100101 Firefox/83.0" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileBezh2g"
+*** You are running in headless mode.
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1607605663205	Marionette	INFO	Listening on port 44347
+1607605663588	Marionette	WARN	TLS certificate errors will be ignored for this session
+1607618199077	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:228:19
+TimedPromise@chrome://marionette/content/sync.js:213:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:418:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+1607618447967	Marionette	INFO	Stopped listening on port 44347
